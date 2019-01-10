@@ -53,6 +53,9 @@
       profile: '用户资料'
       permission_resource: '权限资源'
       permission: '权限点'
+      address: "地址"
+      house_use: "房屋用途"
+      house: "房屋"
     attributes:
       user:
         uid: 'ID'
@@ -69,6 +72,31 @@
         created_at: '注册时间'
         total_prize_count: '抽奖总次数'
         prized_count: '抽过的次数'
+      address:
+        addr_id: "地址ID"
+        parent_addr: "上级地址（街路巷）"
+        name: "地址全称"
+        district: "行政区划"
+        police: "管辖派出所"
+        local_psb: "管辖分局"
+        house_id: "房屋"
+      house_use:
+        name: "名称"
+        _type: "类别值"
+        subtype: "子类别值"
+      house:
+        image: "房屋图片"
+        house_use: "房屋用途"
+        _type: "房屋类型"
+        jg_type: "结构类型"
+        plot_name: "小区名称"
+        area: "面积（㎡）"
+        rooms_count: "房间数（个）"
+        mgr_level: "管理等级"
+        mgr_reason: "管理理由"
+        use_type: "使用类型"
+        rent_type: "租用类型"
+        memo: "房屋备注"
       profile:
         name: '姓名'
         sex: '性别'
