@@ -57,6 +57,7 @@
       house_use: "房屋用途"
       house: "房屋"
       property_info: "产权人信息"
+      daily_check: "日常检查"
     attributes:
       user:
         uid: 'ID'
@@ -116,6 +117,14 @@
         serv_space: "服务场所"
         memo: "备注"
         state: "状态"
+      daily_check:
+        has_man: "是否有居住人员"
+        has_error: "是否有异常情况"
+        memo: "备注"
+        state: "状态"
+        check_on: "检查日期"
+        images: "检查附件"
+        house_id: "所属房屋"
       profile:
         name: '姓名'
         sex: '性别'
