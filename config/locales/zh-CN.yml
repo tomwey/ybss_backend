@@ -56,6 +56,7 @@
       address: "地址"
       house_use: "房屋用途"
       house: "房屋"
+      property_info: "产权人信息"
     attributes:
       user:
         uid: 'ID'
@@ -97,6 +98,24 @@
         use_type: "使用类型"
         rent_type: "租用类型"
         memo: "房屋备注"
+      property_info:
+        _type: "产权类型"
+        house_id: "所属房屋"
+        license_no: "产权证号"
+        comp_name: "单位名称"
+        comp_phone: "单位联系电话"
+        comp_addr: "单位地址"
+        comp_position: "职务"
+        card_type: "房主证件类型"
+        card_no: "证件号码"
+        name: "姓名"
+        sex: "性别"
+        nation: "民族"
+        phone: "联系电话"
+        address: "现居住地址"
+        serv_space: "服务场所"
+        memo: "备注"
+        state: "状态"
       profile:
         name: '姓名'
         sex: '性别'
