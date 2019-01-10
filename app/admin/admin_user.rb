@@ -1,13 +1,13 @@
 ActiveAdmin.register AdminUser do
   menu label: '后台管理员账号', priority: 100
   
-  # permit_params :email, :password, :password_confirmation, permission_ids: []
+  permit_params :email, :password, :password_confirmation#,permission_ids: []
   
-  permit_params do
-    params = [:email, :password, :password_confirmation]
-    params.push permission_ids: [] if current_admin_user.admin? or authorized?(:set_permissions, AdminUser)
-    params
-  end
+  # permit_params do
+  #   params = [:email, :password, :password_confirmation]
+  #   params.push permission_ids: [] if current_admin_user.admin? or authorized?(:set_permissions, AdminUser)
+  #   params
+  # end
   
   config.filters = false
   
@@ -31,13 +31,13 @@ ActiveAdmin.register AdminUser do
     column :email
     column :current_sign_in_at
     column :sign_in_count
-    column '拥有权限' do |o|
-      if o.super_admin?
-        '所有权限'
-      else
-        raw(o.permissions.all.map { |p| ["#{p.action_name}#{p.func_name}"] }.join('<br>'))
-      end
-    end
+    # column '拥有权限' do |o|
+    #   if o.super_admin?
+    #     '所有权限'
+    #   else
+    #     raw(o.permissions.all.map { |p| ["#{p.action_name}#{p.func_name}"] }.join('<br>'))
+    #   end
+    # end
     column :created_at
     actions
   end
