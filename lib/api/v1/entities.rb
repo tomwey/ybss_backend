@@ -217,7 +217,7 @@ module API
         expose :caiji_type
         expose :caiji_reason
         expose :address
-        t.text :memo
+        expose :memo
         expose :state
         expose :state_name do |model,opts|
           model.state == 1 ? "已注销" : "未注销"
