@@ -142,19 +142,19 @@ module API
       class PropertyInfo < Base
         expose :_type, as: :type
         expose :license_no
-        exposoe :comp_name
-        exposoe :comp_phone
-        exposoe :comp_addr
-        exposoe :comp_position
-        exposoe :card_type
-        exposoe :card_no
-        exposoe :name
-        exposoe :sex
-        exposoe :nation
-        exposoe :phone
-        exposoe :address
-        exposoe :serv_space
-        exposoe :memo
+        expose :comp_name
+        expose :comp_phone
+        expose :comp_addr
+        expose :comp_position
+        expose :card_type
+        expose :card_no
+        expose :name
+        expose :sex
+        expose :nation
+        expose :phone
+        expose :address
+        expose :serv_space
+        expose :memo
         expose :state
         expose :state_name do |model, opts|
           model.state == 1 ? "已注销" : "未注销"
