@@ -5,6 +5,9 @@ class House < ActiveRecord::Base
   has_one :address
   has_many :people
   has_many :companies
+  has_many :operate_logs
+  has_many :property_infos
+  has_many :daily_checks
   
   before_save :remove_blank_value_for_array
   def remove_blank_value_for_array

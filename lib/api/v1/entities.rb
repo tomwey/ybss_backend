@@ -139,8 +139,47 @@ module API
         end
       end
       
+      class PropertyInfo < Base
+      end
+      
+      class Person < Base
+      end
+      
+      class Company < Base
+      end
+      
+      class DailyCheck < Base
+      end
+      
+      class OperateLog < Base
+        expose :title
+        expose :action
+        expose :begin_time, format_with: :chinese_datetime
+        expose :end_time, format_with: :chinese_datetime
+      end
+      
       class House < Base
         # expose :
+        expose :image do |model,opts|
+          if model.image.present?
+            model.image.url(:big)
+          else
+            ''
+          end
+        end
+        expose :address do |model, opts|
+          model.address.name
+        end
+        expose :_type, as: :type
+        expose :rooms_count do |model, opts|
+          model.rooms_count || 0
+        end
+        expose :house_use, :jg_type, :plot_name, :area, :mgr_level, :use_type, :rent_type,:mgr_reason,:memo
+        expose :property_infos, as: :properties, using: API::V1::Entities::PropertyInfo
+        expose :people, using: API::V1::Entities::Person
+        expose :companies, using: API::V1::Entities::Company
+        expose :daily_checks, as: :checks, using: API::V1::Entities::DailyCheck
+        expose :operate_logs, as: :logs, using: API::V1::Entities::OperateLog
       end
       
       class Project < Base
