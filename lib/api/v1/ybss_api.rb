@@ -211,6 +211,8 @@ module API
             end
           end
           
+          obj.company_id = company.id
+          
           if obj.save!
             action = params[:emp_id].blank? ? "新增" : "更新"
             OperateLog.create!(house_id: company.house.id, title: "更新单位", action: action, operateable: obj, begin_time: Time.zone.now, owner_id: user.id, ip: client_ip)
