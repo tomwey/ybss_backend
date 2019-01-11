@@ -5,7 +5,7 @@ class House < ActiveRecord::Base
   has_one :address
   has_many :people
   has_many :companies
-  has_many :operate_logs
+  has_many :operate_logs, -> { where.not(title: "扫码查询地址") }
   has_many :property_infos
   has_many :daily_checks
   
