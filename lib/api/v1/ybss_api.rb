@@ -21,7 +21,7 @@ module API
             return { code: -1, message: "密码不正确" }
           end
           
-          { token: user.private_token }
+          { code: 0, message: "ok", data: { token: user.private_token } }
         end
         
         desc "获取账号个人资料"
