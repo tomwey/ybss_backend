@@ -21,7 +21,7 @@ form do |f|
     f.input :local_psb
     f.input :parent_addr
     f.input :district
-    f.input :house_id, as: :select, label: "房屋", collection: []
+    f.input :house_id, as: :select, label: "房屋", collection: House.all.map { |h| [h.id, h.id] }
   end
   f.actions
 end

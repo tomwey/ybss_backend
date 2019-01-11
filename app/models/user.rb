@@ -39,20 +39,20 @@ class User < ActiveRecord::Base
   end
   
   def format_avatar_url
-    # if avatar.present?
-    #   avatar.url(:large)
-    # else
-    #   ''
-    # end
-    if auth_profile
-      auth_profile.try(:headimgurl)
+    if avatar.present?
+      avatar.url(:large)
     else
-      if avatar.present?
-        avatar.url(:large)
-      else
-        ''
-      end
+      ''
     end
+    # if auth_profile
+    #   auth_profile.try(:headimgurl)
+    # else
+    #   if avatar.present?
+    #     avatar.url(:large)
+    #   else
+    #     ''
+    #   end
+    # end
   end
   
   def wx_bind

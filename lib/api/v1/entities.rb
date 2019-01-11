@@ -108,20 +108,20 @@ module API
       class User < UserBase
         expose :uid, as: :id
         expose :mobile, format_with: :null
-        expose :nickname do |model, opts|
-          model.format_nickname
-        end
+        expose :nickname
         expose :avatar do |model, opts|
           model.format_avatar_url
         end
-        expose :balance, format_with: :rmb_format
-        expose :vip_expired_at, as: :vip_time, format_with: :chinese_date
-        expose :left_days, as: :vip_status
-        expose :qrcode_url
-        expose :portal_url
-        unexpose :private_token, as: :token
-        expose :wx_bind
-        expose :qq_bind
+        expose :name, :dept
+        
+        # expose :balance, format_with: :rmb_format
+        # expose :vip_expired_at, as: :vip_time, format_with: :chinese_date
+        # expose :left_days, as: :vip_status
+        # expose :qrcode_url
+        # expose :portal_url
+        # unexpose :private_token, as: :token
+        # expose :wx_bind
+        # expose :qq_bind
         
         # expose :vip_expired_at, as: :vip_time, format_with: :chinese_date
         # expose :left_days do |model, opts|
@@ -133,12 +133,14 @@ module API
       class SimpleUser < Base
         expose :uid, as: :id
         expose :mobile, format_with: :null
-        expose :nickname do |model, opts|
-          model.format_nickname
-        end
+        expose :nickname
         expose :avatar do |model, opts|
           model.format_avatar_url
         end
+      end
+      
+      class House < Base
+        # expose :
       end
       
       class Project < Base
