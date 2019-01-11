@@ -20,7 +20,7 @@
     #   action: '提交口令抢红包'
   activerecord:
     models:
-      user: "用户"
+      user: "用户账号"
       user_session: '用户会话'
       user_device: '用户设备'
       admin: "管理员"
@@ -61,6 +61,7 @@
       person: "居住人员"
       company: "实有单位"
       employee: "从业人员"
+      operate_log: "操作日志"
     attributes:
       user:
         uid: 'ID'
@@ -77,6 +78,10 @@
         created_at: '注册时间'
         total_prize_count: '抽奖总次数'
         prized_count: '抽过的次数'
+        password: "密码"
+        password_confirmation: "确认密码"
+        name: "账号姓名"
+        dept: "所属部门"
       address:
         addr_id: "地址ID"
         parent_addr: "上级地址（街路巷）"
