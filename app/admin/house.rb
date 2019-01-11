@@ -16,7 +16,7 @@ form do |f|
   f.semantic_errors
   f.inputs "基本信息" do
     f.input :image
-    f.input :house_use, as: :check_boxes, collection: HouseUse.all.map { |use| [use.name, "#{use.subtype}|#{use.name}"] }, required: true
+    f.input :house_use, as: :check_boxes, collection: HouseUse.all.map { |use| [use.name, use.name] }, required: true
     f.input :_type, as: :select, collection: ['单元楼','筒子楼', '别墅', '自建小楼', '独立平房', '四合院平房', '临时工棚', '其他']
     f.input :jg_type, as: :select, collection: ['框架', '砖混', '土墙', '立材夹壁', '其他']
     f.input :plot_name
