@@ -3,6 +3,8 @@ class House < ActiveRecord::Base
   mount_uploader :image, CoverImageUploader
   
   has_one :address
+  has_many :people
+  has_many :companies
   
   before_save :remove_blank_value_for_array
   def remove_blank_value_for_array
