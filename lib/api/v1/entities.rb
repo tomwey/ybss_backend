@@ -140,15 +140,134 @@ module API
       end
       
       class PropertyInfo < Base
+        expose :_type, as: :type
+        expose :license_no
+        exposoe :comp_name
+        exposoe :comp_phone
+        exposoe :comp_addr
+        exposoe :comp_position
+        exposoe :card_type
+        exposoe :card_no
+        exposoe :name
+        exposoe :sex
+        exposoe :nation
+        exposoe :phone
+        exposoe :address
+        exposoe :serv_space
+        exposoe :memo
+        expose :state
+        expose :state_name do |model, opts|
+          model.state == 1 ? "已注销" : "未注销"
+        end
       end
       
       class Person < Base
+        expose :card_type
+        expose :card_no
+        expose :birth, format_with: :chinese_date
+        expose :country
+        expose :name
+        expose :sex
+        expose :reg_address
+        expose :address1
+        expose :mgr_level
+        expose :caiji_type
+        expose :caiji_reason
+        expose :situation
+        expose :birth_addr
+        expose :native_place
+        expose :identity
+        expose :old_name
+        expose :nation
+        expose :alias_name
+        expose :telephone
+        expose :marry_status
+        expose :gov_type
+        expose :religion
+        expose :height
+        expose :blood_type
+        expose :mili_serve_state
+        expose :education
+        expose :speciality
+        expose :job
+        expose :strong_point
+        expose :state
+        expose :state_name do |model,opts|
+          model.state == 1 ? "已注销" : "未注销"
+        end
+      end
+      
+      class Employee < Base
+        expose :card_type
+        expose :card_no
+        expose :name
+        expose :sex
+        expose :birth, format_with: :chinese_date
+        expose :nation
+        expose :country
+        expose :native_place
+        expose :job_type
+        expose :dept
+        expose :position
+        expose :telephone
+        expose :communicate_type
+        expose :contact_type
+        expose :begin_date, format_with: :chinese_date
+        expose :end_date, format_with: :chinese_date
+        expose :caiji_type
+        expose :caiji_reason
+        expose :address
+        t.text :memo
+        expose :state
+        expose :state_name do |model,opts|
+          model.state == 1 ? "已注销" : "未注销"
+        end
       end
       
       class Company < Base
+        expose :name
+        expose :comp_type
+        expose :comp_xz_type
+        expose :mgr_level
+        expose :alias_name
+        expose :comp_no1
+        expose :comp_prop_type
+        expose :phone
+        expose :top_comp_type
+        expose :scope
+        expose :comp_no2
+        expose :has_video_monitor
+        expose :comp_no3
+        expose :reg_date,format_with: :chinese_date
+        expose :reg_money
+        expose :fz_date,format_with: :chinese_date
+        expose :expire_date,format_with: :chinese_date
+        expose :reg_address
+        expose :address
+        expose :state
+        expose :state_name do |model,opts|
+          model.state == 1 ? "已注销" : "未注销"
+        end
+        expose :employees, using: API::V1::Entities::Employee
       end
       
       class DailyCheck < Base
+        expose :name
+        expose :has_man
+        expose :has_error
+        expose :memo
+        expose :state
+        expose :state_name do |model,opts|
+          model.state == 1 ? "已注销" : "未注销"
+        end
+        expose :images do |model,opts|
+          arr = []
+          model.images.each do |img|
+            arr << img.url(:big)
+          end
+          arr
+        end
+        expose :check_on, format_with: :chinese_date
       end
       
       class OperateLog < Base
@@ -156,6 +275,7 @@ module API
         expose :action
         expose :begin_time, format_with: :chinese_datetime
         expose :end_time, format_with: :chinese_datetime
+        expose :user, using: API::V1::Entities::User
       end
       
       class House < Base

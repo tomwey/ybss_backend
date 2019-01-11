@@ -52,11 +52,200 @@ module API
             return render_error(4001, "该地址还未绑定房屋")
           end
           
-          OperateLog.create!(house_id: address.house.id, title: "扫码查询地址", action: "扫码查询地址", operateable: address.house, begin_time: Time.zone.now, owner_id: user.id)
+          OperateLog.create!(house_id: address.house.id, title: "扫码查询地址", action: "扫码查询地址", operateable: address.house, begin_time: Time.zone.now, owner_id: user.id, ip: client_ip)
           
           render_json(address.house, API::V1::Entities::House)
         end # end get house
         
+        desc "更新房屋信息"
+        params do
+          requires :token, type: String, desc: "登录TOKEN"
+          requires :id, type: Integer, desc: "房屋ID"
+          optional :image, type: Rack::Multipart::UploadedFile, desc: '房屋图片'
+          optional :payload, type: JSON, desc: "其他非图片json数据"
+        end
+        post '/house/update' do
+          user = authenticate!
+          
+          house = House.find_by(id: params[:id])
+          if house.blank?
+            return render_error(4004, "房屋不存在")
+          end
+          
+          # 修改房屋图片
+          image = params[:image]
+          if image
+            house.image = params[:image]
+          end
+          
+          # 修改房屋其他信息
+          payload = params[:payload]
+          if payload
+            # puts payload.class
+            # keys = payload.keys
+            payload.each do |k,v|
+              # puts "k:#{k},v:#{v}"
+              if v.present? and house.has_attribute?(k)
+                house.send "#{k}=", v
+              end
+            end
+          end
+          
+          if house.save!
+            OperateLog.create!(house_id: house.id, title: "更新房屋", action: "更新", operateable: house, begin_time: Time.zone.now, owner_id: user.id, ip: client_ip)
+            render_json(house, API::V1::Entities::House)
+          else
+            render_error(2001, "房屋更新失败")
+          end
+        end # end update house
+        
+        desc "保存房屋附属信息"
+        params do
+          requires :token,   type: String, desc: "登录TOKEN"
+          requires :id,      type: Integer, desc: "房屋ID"
+          requires :class,   type: String, desc: "对象类名字"
+          optional :obj_id,  type: Integer, desc: "对象ID"
+          optional :payload, type: JSON, desc: "对象JSON数据"
+          optional :files,   type: Array do
+            requires :file, type: Rack::Multipart::UploadedFile, desc: '附件二进制'
+          end
+        end
+        post "/house/:class/save" do
+          user = authenticate!
+        
+          house = House.find_by(id: params[:id])
+          if house.blank?
+            return render_error(4004, "房屋不存在")
+          end
+          
+          klass = params[:class].classify.constantize
+          obj = klass.find_by(params[:obj_id])
+          if obj.blank?
+            obj = klass.new
+          end
+          
+          if params[:payload]
+            params[:payload].each do |k,v|
+              if v.present? and obj.has_attribute?(k)
+                obj.send "#{k}=", v
+              end
+            end
+          end
+          
+          # 保存图片
+          if params[:files] && params[:files].any?
+            if obj.has_attribute?(:images)
+              obj.images = params[:files]
+            elsif obj.has_attribute?(:image)
+              obj.image = params[:files][0]
+            end
+          end
+          
+          if obj.save!
+            action = params[:obj_id].blank? ? "新增" : "更新"
+            OperateLog.create!(house_id: house.id, title: "更新房屋数据", action: action, operateable: obj, begin_time: Time.zone.now, owner_id: user.id, ip: client_ip)
+            render_json(house, API::V1::Entities::House)
+          else
+            render_error(3001, "提交失败!")
+          end
+        end # end save class
+        
+        desc "注销跟房屋相关的附属信息"
+        params do
+          requires :token,   type: String, desc: "登录TOKEN"
+          requires :id,      type: Integer, desc: "房屋ID"
+          requires :class,   type: String, desc: "对象类名字"
+          requires :obj_id,  type: Integer, desc: "对象ID"
+        end
+        post "/house/:class/delete" do
+          user = authenticate!
+        
+          house = House.find_by(id: params[:id])
+          if house.blank?
+            return render_error(4004, "房屋不存在")
+          end
+          
+          klass = params[:class].classify.constantize
+          obj = klass.find_by(params[:obj_id])
+          if obj.blank?
+            return render_error(4004, "对象不存在")
+          end
+          
+          if obj.has_attribute?(:state)
+            obj.state = 1
+            obj.save!
+            OperateLog.create!(house_id: house.id, title: "更新房屋数据", action: "注销", operateable: obj, begin_time: Time.zone.now, owner_id: user.id, ip: client_ip)
+            render_json(house, API::V1::Entities::House)
+          else
+            render_error(-1, "非法操作")
+          end
+        end # end delete
+        
+        desc "保存公司从业人员信息"
+        params do
+          requires :token,   type: String, desc: "登录TOKEN"
+          requires :id,      type: Integer, desc: "公司ID"
+          optional :emp_id,  type: Integer, desc: "从业人员ID"
+          optional :payload, type: JSON, desc: "从业人员信息JSON"
+        end
+        post '/company/save_emp' do
+          user = authenticate!
+        
+          company = Company.find_by(id: params[:id])
+          if company.blank?
+            return render_error(4004, "单位不存在")
+          end
+          
+          obj = Employee.where(company_id: company.id, id: params[:emp_id]).first
+          if obj.blank?
+            obj = Employee.new
+          end
+          
+          if params[:payload]
+            params[:payload].each do |k,v|
+              if v.present? and obj.has_attribute?(k)
+                obj.send "#{k}=", v
+              end
+            end
+          end
+          
+          if obj.save!
+            action = params[:emp_id].blank? ? "新增" : "更新"
+            OperateLog.create!(house_id: company.house.id, title: "更新单位", action: action, operateable: obj, begin_time: Time.zone.now, owner_id: user.id, ip: client_ip)
+            render_json(company, API::V1::Entities::Company)
+          else
+            render_error(5001, "提交失败")
+          end
+        end # end save
+        
+        desc "注销公司从业人员信息"
+        params do
+          requires :token,   type: String, desc: "登录TOKEN"
+          requires :id,      type: Integer, desc: "公司ID"
+          requires :emp_id,  type: Integer, desc: "从业人员ID"
+        end
+        post '/company/delete_emp' do
+          user = authenticate!
+        
+          company = Company.find_by(id: params[:id])
+          if company.blank?
+            return render_error(4004, "单位不存在")
+          end
+          
+          obj = Employee.where(company_id: company.id, id: params[:emp_id]).first
+          if obj.blank?
+            return render_error(4004, "从业人员不存在")
+          end
+          
+          obj.state = 1
+          
+          if obj.save!
+            OperateLog.create!(house_id: company.house.id, title: "更新单位", action: "注销", operateable: obj, begin_time: Time.zone.now, owner_id: user.id, ip: client_ip)
+            render_json(company, API::V1::Entities::Company)
+          else
+            render_error(5001, "注销失败")
+          end
+        end # end delete
         
       end # end resource
       
