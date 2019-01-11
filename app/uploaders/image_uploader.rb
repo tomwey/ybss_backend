@@ -4,21 +4,33 @@ class ImageUploader < BaseUploader
 
   storage :qiniu
   
-  version :large do
-    process resize_to_fill: [1080, 458]
+  version :big do
+    process resize_to_fill: [1080, 608]
   end
+
+  version :large do
+    process resize_to_fill: [540, 304]
+  end
+
+  version :small, from_version: :large do
+    process resize_to_fill: [200, 200]
+  end
+  
+  # version :large do
+  #   process resize_to_fill: [1080, 458]
+  # end
   
   # version :cover do
   #   process resize_to_fill: [354, 150]
   # end
   
-  version :thumb do
-    process resize_to_fill: [200, 200]
-  end
-  
-  version :small, from_version: :thumb do
-    process resize_to_fill: [80, 80]
-  end
+  # version :thumb do
+  #   process resize_to_fill: [200, 200]
+  # end
+  #
+  # version :small, from_version: :thumb do
+  #   process resize_to_fill: [80, 80]
+  # end
 
   def filename
     if super.present?

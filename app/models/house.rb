@@ -1,6 +1,6 @@
 class House < ActiveRecord::Base
   validates :image, :use_type, :mgr_level, presence: true
-  mount_uploader :image, CoverImageUploader
+  mount_uploader :image, ImageUploader
   
   has_one :address
   has_many :people
