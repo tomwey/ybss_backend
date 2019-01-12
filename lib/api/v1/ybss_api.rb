@@ -143,9 +143,9 @@ module API
               obj.images = files
             elsif obj.has_attribute?(:image)
               files = params[:files]
-              if (files.size > 0) {
+              if files.size > 0 
                 obj.image = files[0][:file]
-              }
+              end
             end
           end
           
