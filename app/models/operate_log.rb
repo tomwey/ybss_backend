@@ -14,6 +14,7 @@ class OperateLog < ActiveRecord::Base
       when "Employee" then "#{self.action}从业人员"
       when "DailyCheck" then "#{self.action}从业人员"
       else self.title
+      end
     end
   end
 end
