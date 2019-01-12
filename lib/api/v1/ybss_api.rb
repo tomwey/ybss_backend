@@ -126,9 +126,9 @@ module API
           
           if params[:payload]
             params[:payload].each do |k,v|
-              puts "#{k}:#{v}"
-              if obj.has_attribute?(k)
-                puts k
+              # puts "#{k}:#{v}"
+              if v.present? && obj.has_attribute?(k)
+                # puts k
                 obj.send "#{k}=", v
               end
             end
@@ -139,14 +139,16 @@ module API
             # puts params[:files]
             if obj.has_attribute?(:images)
               files = []
+              i = 0
               params[:files].each do |param|
-                files << param[:file]
+                files << param["file#{i}".to_sym]
+                i = i + 1
               end
               obj.images = files
             elsif obj.has_attribute?(:image)
               files = params[:files]
               if files.size > 0 
-                obj.image = files[0][:file]
+                obj.image = files[0][:file0]
               end
             end
           end
