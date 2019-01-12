@@ -134,11 +134,18 @@ module API
           
           # 保存图片
           if params[:files] && params[:files].any?
-            puts params[:files]
+            # puts params[:files]
             if obj.has_attribute?(:images)
-              obj.images = params[:files]
+              files = []
+              params[:files].each do |param|
+                files << param[:file]
+              end
+              obj.images = files
             elsif obj.has_attribute?(:image)
-              obj.image = params[:files][0]
+              files = params[:files]
+              if (files.size > 0) {
+                obj.image = files[0][:file]
+              }
             end
           end
           
