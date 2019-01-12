@@ -126,6 +126,7 @@ module API
           
           if params[:payload]
             params[:payload].each do |k,v|
+              puts "#{k}:#{v}"
               if v.present? and obj.has_attribute?(k)
                 obj.send "#{k}=", v
               end
