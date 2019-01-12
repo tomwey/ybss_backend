@@ -134,6 +134,7 @@ module API
           
           # 保存图片
           if params[:files] && params[:files].any?
+            puts params[:files]
             if obj.has_attribute?(:images)
               obj.images = params[:files]
             elsif obj.has_attribute?(:image)
