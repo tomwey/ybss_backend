@@ -271,7 +271,9 @@ module API
       end
       
       class OperateLog < Base
-        expose :title
+        expose :title do |model,opts|
+          model.format_title
+        end
         expose :action
         expose :begin_time, format_with: :chinese_datetime
         expose :end_time, format_with: :chinese_datetime

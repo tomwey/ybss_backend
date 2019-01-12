@@ -142,7 +142,7 @@ module API
               params[:files].each do |param|
                 files << param[:file]
               end
-              puts files
+              # puts files
               obj.images = files
             elsif obj.has_attribute?(:image)
               files = params[:files]
