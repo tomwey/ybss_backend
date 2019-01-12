@@ -248,6 +248,7 @@ module API
         expose :state_name do |model,opts|
           model.state == 1 ? "已注销" : "未注销"
         end
+        expose :total_employees, :baoan_count, :law_man_card_no, :law_man_name, :law_man_phone
         expose :employees, using: API::V1::Entities::Employee
       end
       

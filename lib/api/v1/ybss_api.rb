@@ -229,6 +229,9 @@ module API
           
           if obj.save!
             action = params[:emp_id].blank? ? "新增" : "更新"
+            if obj.state == 1
+              action = "注销"
+            end
             OperateLog.create!(house_id: company.house.id, title: "更新单位", action: action, operateable: obj, begin_time: Time.zone.now, owner_id: user.id, ip: client_ip)
             render_json(company, API::V1::Entities::Company)
           else
