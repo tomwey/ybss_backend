@@ -139,16 +139,15 @@ module API
             # puts params[:files]
             if obj.has_attribute?(:images)
               files = []
-              i = 0
               params[:files].each do |param|
-                files << param["file#{i}".to_sym]
-                i = i + 1
+                files << param[:file]
               end
+              puts files
               obj.images = files
             elsif obj.has_attribute?(:image)
               files = params[:files]
               if files.size > 0 
-                obj.image = files[0][:file0]
+                obj.image = files[0][:file]
               end
             end
           end
