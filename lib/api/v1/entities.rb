@@ -140,7 +140,7 @@ module API
       end
       
       class PropertyInfo < Base
-        expose :_type, as: :type
+        expose :_type
         expose :license_no
         expose :comp_name
         expose :comp_phone
@@ -290,7 +290,7 @@ module API
         expose :address do |model, opts|
           model.address.name
         end
-        expose :_type, as: :type
+        expose :_type
         expose :rooms_count do |model, opts|
           model.rooms_count || 0
         end
