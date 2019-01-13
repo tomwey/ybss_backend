@@ -2,7 +2,7 @@ ActiveAdmin.register Address do
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
-permit_params :name, :addr_id, :police, :local_psb, :parent_addr, :district, :house_id
+permit_params :name, :addr_id, :police, :local_psb, :parent_addr, :district, :house_id, :has_child
 #
 # or
 #
@@ -17,6 +17,7 @@ form do |f|
   f.inputs "基本信息" do
     f.input :name
     f.input :addr_id, required: true
+    f.input :has_child, label: '是否有下级楼栋'
     f.input :police
     f.input :local_psb
     f.input :parent_addr
