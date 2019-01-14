@@ -49,7 +49,7 @@ module API
           
           if address.has_child
             # 有下级地址
-            buildings = BuildingUnitHouse.includes(:address, :building, :unit, :house).where(address_id: 2).order("building_id asc, unit_id asc")
+            buildings = BuildingUnitHouse.includes(:address, :building, :unit, :house).where(address_id: address.id).order("building_id asc, unit_id asc")
             render_json(buildings, API::V1::Entities::BuildingUnitHouse)
           else
             # 无下级地址，直接查询房屋
