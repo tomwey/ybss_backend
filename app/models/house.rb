@@ -24,7 +24,7 @@ class House < ActiveRecord::Base
   
   def self.valid_houses
     house_ids = Address.where.not(house_id: nil).pluck(:house_id)
-    house_ids += BuildingUnitHouse.where.not(house_id: nil).pluck(:house_id)
+    # house_ids += BuildingUnitHouse.where.not(house_id: nil).pluck(:house_id)
     where.not(id: house_ids)
   end
 end

@@ -16,8 +16,8 @@ form do |f|
   f.semantic_errors
   f.inputs "基本信息" do
     f.input :address_id, as: :select, label: "所在地址", collection: Address.valid_addresses.map { |a| [a.name, a.id] }, required: true
-    f.input :building_id, label: "所属楼栋", required: true, collection: Building.order('id asc').map { |b| [b.name, b.id] }
-    f.input :unit_id, label: "所属单元", collection: Unit.order('id asc').map { |b| [b.name, b.id] }
+    f.input :building_id, as: :select, label: "所属楼栋", required: true, collection: Building.order('id asc').map { |b| [b.name, b.id] }
+    f.input :unit_id, as: :select, label: "所属单元", collection: Unit.order('id asc').map { |b| [b.name, b.id] }
     f.input :room_no, label: "房号"
     f.input :house_id, as: :select, required: true, label: "关联房屋", collection: House.valid_houses.map { |h| [h.id, h.id] }
   end

@@ -291,7 +291,7 @@ module API
           end
         end
         expose :address do |model, opts|
-          model.address.name
+          model.address.try(:name)
         end
         expose :_type
         expose :rooms_count do |model, opts|
@@ -303,6 +303,22 @@ module API
         expose :companies, using: API::V1::Entities::Company
         expose :daily_checks, as: :checks, using: API::V1::Entities::DailyCheck
         expose :operate_logs, as: :logs, using: API::V1::Entities::OperateLog
+      end
+      
+      class BuildingUnitHouse < Base
+        expose :address do |model, opts|
+          model.address.try(:name)
+        end
+        expose :building_id
+        expose :building_name do |model,opts|
+          model.building.try(:name)
+        end
+        expose :unit_id
+        expose :unit_name do |model,opts|
+          model.unit.try(:name)
+        end
+        expose :room_no
+        expose :house, using: API::V1::Entities::House
       end
       
       class Project < Base

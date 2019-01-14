@@ -35,6 +35,35 @@ module API
       end # end user resource
       
       resource :ybss do
+        desc "扫码查询地址信息"
+        params do
+          requires :token,   type: String, desc: "登录TOKEN"
+          requires :addr_id, type: String, desc: "地址ID"
+        end
+        get :scan do
+          user = authenticate!
+          address = Address.find_by(addr_id: params[:addr_id])
+          if address.blank?
+            return render_error(4004, "不存在的地址")
+          end
+          
+          if address.has_child
+            # 有下级地址
+            buildings = BuildingUnitHouse.includes(:address, :building, :unit, :house).where(address_id: 2).order("building_id asc, unit_id asc")
+            render_json(buildings, API::V1::Entities::BuildingUnitHouse)
+          else
+            # 无下级地址，直接查询房屋
+            if address.house.blank?
+              return render_error(4001, "该地址还未绑定房屋")
+            end
+            
+            OperateLog.create!(house_id: address.house.id, title: "扫码查询地址", action: "扫码查询地址", operateable: address.house, begin_time: Time.zone.now, owner_id: user.id, ip: client_ip)
+          
+            render_json(address.house, API::V1::Entities::House)
+            
+          end
+        end # end scan
+        
         desc "扫码查询"
         params do
           requires :token,   type: String, desc: "登录TOKEN"
