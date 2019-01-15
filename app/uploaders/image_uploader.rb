@@ -5,16 +5,20 @@ class ImageUploader < BaseUploader
   storage :qiniu
   
   version :big do
-    process resize_to_fill: [1080, 608]
+    process resize_to_fill: [1080, 756]
   end
-
-  version :large do
-    process resize_to_fill: [540, 304]
-  end
-
-  version :small, from_version: :large do
-    process resize_to_fill: [200, 200]
-  end
+  
+  # version :big do
+  #   process resize_to_fill: [1080, 608]
+  # end
+  
+  # version :large do
+  #   process resize_to_fill: [540, 304]
+  # end
+  #
+  # version :small, from_version: :large do
+  #   process resize_to_fill: [200, 200]
+  # end
   
   # version :large do
   #   process resize_to_fill: [1080, 458]
