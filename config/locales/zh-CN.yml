@@ -62,6 +62,8 @@
       company: "实有单位"
       employee: "从业人员"
       operate_log: "操作日志"
+      category: '文章分类'
+      article: '文章'
     attributes:
       user:
         uid: 'ID'
@@ -82,6 +84,19 @@
         password_confirmation: "确认密码"
         name: "账号姓名"
         dept: "所属部门"
+      category:
+        name: '名字'
+        opened: '是否打开'
+        sort: '显示顺序'
+        pid: '所属父级分类'
+      article:
+        category_id: '所属分类'
+        title: '标题'
+        body: '内容'
+        body_url: '文章页面地址'
+        cover: '封面图'
+        published_at: '发布时间'
+        sort: '显示顺序'
       address:
         addr_id: "地址ID"
         parent_addr: "上级地址（街路巷）"

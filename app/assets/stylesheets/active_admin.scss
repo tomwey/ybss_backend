@@ -71,6 +71,10 @@ form fieldset > ol >li p.inline-hints {
   } 
 }
 
+.chosen-container .chosen-drop {
+  z-index: 1110;
+}
+
 .dropzone{
   border: dashed 1px #666;
   width: 600px;
