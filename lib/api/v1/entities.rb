@@ -321,6 +321,26 @@ module API
         expose :house, using: API::V1::Entities::House
       end
       
+      class Category < Base
+        expose :name, :pid
+        expose :total do |model,opts|
+          Article.where(category_id: model.id).count
+        end
+      end
+      
+      class Article < Base
+        expose :title, :body, :body_url
+        expose :cover do |model,opts|
+          if model.cover.blank?
+            ''
+          else
+            model.cover.url(:big)
+          end
+        end
+        expose :published_at, as: :publish_time, format_with: :chinese_datetime
+        expose :created_at, as: :time, format_with: :chinese_datetime
+      end
+      
       class Project < Base
         expose :uniq_id, as: :id
         expose :title

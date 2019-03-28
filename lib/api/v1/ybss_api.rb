@@ -299,6 +299,34 @@ module API
         
       end # end resource
       
+      resource :categories do
+        desc "获取文章分类"
+        params do
+          optional :pid, type: Integer, desc: '父类ID'
+        end
+        get do
+          if params[:pid].present?
+            @categories = Category.where(opened: true, pid: params[:pid]).order('sort asc, id asc')
+          else
+            @categories = Category.where(opened: true, pid: nil).order('sort asc, id asc')
+          end
+          render_json(@categories, API::V1::Entities::Category)
+        end # end get
+        desc "获取文章列表"
+        params do
+          requires :cid, type: Integer, desc: '分类ID'
+        end
+        get '/:cid/articles' do
+          @category = Category.where(opened: true, id: params[:cid]).first
+          if @category.blank?
+            return render_error(4004, '文章分类不存在')
+          end
+          
+          @articles = Article.where(deleted_at: nil, category_id: @category.id).order('sort desc')
+          render_json(@articles, API::V1::Entities::Article)
+        end # end get
+      end # end resource
+      
     end
   end
 end
