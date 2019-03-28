@@ -323,8 +323,8 @@ module API
       
       class Category < Base
         expose :name, :pid
-        expose :total do |model,opts|
-          Article.where(category_id: model.id).count
+        expose :has_child do |model,opts|
+          Category.where(pid: model.id).count > 0
         end
       end
       
