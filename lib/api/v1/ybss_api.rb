@@ -187,8 +187,11 @@ module API
           
           if obj.save!
             action = params[:obj_id].blank? ? "新增" : "更新"
-            if obj.state == 1
+            if obj.has_attribute?(:state) && obj.state == 1
               action = "注销"
+            end
+            if params[:class].classify == 'PersonCheck'
+              action = '人员核查'
             end
             OperateLog.create!(house_id: house.id, title: "更新房屋数据", action: action, operateable: obj, begin_time: Time.zone.now, owner_id: user.id, ip: client_ip)
             render_json(house, API::V1::Entities::House)
