@@ -181,7 +181,9 @@ module API
             end
           end
           
-          obj.house_id = house.id
+          if obj.has_attribute?(:house_id)
+            obj.house_id = house.id
+          end
           
           if obj.save!
             action = params[:obj_id].blank? ? "新增" : "更新"
