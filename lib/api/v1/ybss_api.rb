@@ -201,6 +201,8 @@ module API
           requires :id,      type: Integer, desc: "房屋ID"
           requires :class,   type: String, desc: "对象类名字"
           requires :obj_id,  type: Integer, desc: "对象ID"
+          optional :reason,  type: String, desc: "注销原因"
+          optional :memo,    type: String, desc: "备注信息"
         end
         post "/house/:class/delete" do
           user = authenticate!
@@ -218,7 +220,14 @@ module API
           
           if obj.has_attribute?(:state)
             obj.state = 1
+            if obj.has_attribute?(:delete_reason) && params[:reason].present?
+              obj.delete_reason = params[:reason]
+            end
+            if obj.has_attribute?(:delete_memo) && params[:memo].present?
+              obj.delete_memo = params[:memo]
+            end
             obj.save!
+            
             OperateLog.create!(house_id: house.id, title: "更新房屋数据", action: "注销", operateable: obj, begin_time: Time.zone.now, owner_id: user.id, ip: client_ip)
             render_json(house, API::V1::Entities::House)
           else
