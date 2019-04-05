@@ -303,6 +303,7 @@ module API
         expose :companies, using: API::V1::Entities::Company
         expose :daily_checks, as: :checks, using: API::V1::Entities::DailyCheck
         expose :operate_logs, as: :logs, using: API::V1::Entities::OperateLog
+        expose :state
       end
       
       class BuildingUnitHouse < Base
