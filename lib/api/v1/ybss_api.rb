@@ -213,7 +213,7 @@ module API
           end
           
           klass = params[:class].classify.constantize
-          obj = klass.find_by(params[:obj_id])
+          obj = klass.find_by(id: params[:obj_id])
           if obj.blank?
             return render_error(4004, "对象不存在")
           end
